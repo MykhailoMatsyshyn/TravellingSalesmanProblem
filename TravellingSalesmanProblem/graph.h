@@ -1,13 +1,11 @@
 #pragma once
 #ifndef GRAPH_H
-#define GRAPH_H
-
-#define _USE_MATH_DEFINES 
-#define _CRT_SECURE_NO_WARNINGS 
+#define GRAPH_H 
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+
+#include "calculations.h"
 
 // Кількість максимальних міст для графу
 #define MAX_CITIES 50

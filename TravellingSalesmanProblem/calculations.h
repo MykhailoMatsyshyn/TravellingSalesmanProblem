@@ -2,7 +2,10 @@
 #ifndef CALCULATIONS_H
 #define CALCULATIONS_H
 
-#include "graph.h";
+#define _USE_MATH_DEFINES 
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <math.h>
 
 // Радіус Землі в кілометрах
 #define EARTH_RADIUS 6371.0

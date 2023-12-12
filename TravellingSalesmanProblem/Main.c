@@ -1,5 +1,4 @@
-#include "graph.h"
-#include "calculations.h"
+#include "algorithms.h"
 
 /*================================================*/
 
@@ -24,6 +23,11 @@ int main() {
 
     // Обчислення відстаней між вершинами
     calculateDistances(&graph);
+
+
+    nearestNeighbor(&graph);
+
+    enhancedNearestNeighbor(&graph);
 
     return 0;
 }

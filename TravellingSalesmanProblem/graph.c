@@ -37,7 +37,7 @@ void calculateDistances(Graph* graph) {
     // Виведення вертикальних номерів вершин
     printf(" |      ");
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" %5d  ", i + 1);
+        printf(" %5d  ", i);
     }
     printf("\n");
 
@@ -49,7 +49,7 @@ void calculateDistances(Graph* graph) {
     printf("|");
 
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" | \n | %2d |", i + 1); // Номер вершини по горизонталі
+        printf(" | \n | %2d |", i); // Номер вершини по горизонталі
 
         for (int j = 0; j < graph->numCities; ++j) {
             if (i == j) {

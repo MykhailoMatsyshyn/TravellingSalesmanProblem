@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Algorithms">
+      <UniqueIdentifier>{6b6f960d-7f84-406d-98f2-69dd0df32337}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
@@ -23,6 +26,15 @@
     </ClCompile>
     <ClCompile Include="calculations.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nearestNeighbor.c">
+      <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="enhancedNearestNeighbor.c">
+      <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
