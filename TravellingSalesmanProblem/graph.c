@@ -1,5 +1,21 @@
 #include "graph.h"
 
+/* Додаткова функція для формування ліній*/
+void line(const char* sym, int ks) {
+    for (int i = 0; i < ks; i++) {
+        printf("%s", sym);
+    }
+    printf("\n");
+}
+
+void line2(const char* sym, int ks) {
+    for (int i = 0; i < ks; i++) {
+        printf("%s", sym);
+    }
+}
+
+/*******************************************************/
+
 void initializeGraph(Graph* graph) {
     // Ініціалізувати матрицю суміжності нулями
     for (int i = 0; i < MAX_CITIES; ++i) {
@@ -33,13 +49,14 @@ void addCity(Graph* graph, char* name, double latitude, double longitude) {
 void calculateDistances(Graph* graph) {
     printf("\n  Матриця відстаней:\n");
     printf(" -------------------------------------------------------------------\n");
+    printf(" ");  line("\227", 21);
 
     // Виведення вертикальних номерів вершин
-    printf(" |         ");
+    printf(" |"); line2(" ", 19);
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" %-8d", i);
+        printf("|    %2d    ", i);
     }
-    printf("\n");
+    printf("|\n");
 
     // Виведення горизонтальної лінії
     printf(" |    ");
@@ -49,7 +66,7 @@ void calculateDistances(Graph* graph) {
     printf("|");
 
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" |\t\t     |\n | %-18s", graph->cities[i].name); // Назва міста
+        printf("\n | %-18s", graph->cities[i].name); // Назва міста
 
         for (int j = 0; j < graph->numCities; ++j) {
             if (i == j) {
@@ -62,6 +79,7 @@ void calculateDistances(Graph* graph) {
             printf("| %7.2f  ", graph->adjacency_matrix[i][j]);
         }
         puts("|");
+        printf(" "); line2(" ", 21);  line2("\227", 11 * graph->numCities);
     }
 }
 
