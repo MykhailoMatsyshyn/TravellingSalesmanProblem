@@ -32,24 +32,24 @@ void addCity(Graph* graph, char* name, double latitude, double longitude) {
 
 void calculateDistances(Graph* graph) {
     printf("\n  Матриця відстаней:\n");
-    printf(" ----------------------------------------------\n");
+    printf(" -------------------------------------------------------------------\n");
 
     // Виведення вертикальних номерів вершин
-    printf(" |      ");
+    printf(" |         ");
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" %5d  ", i);
+        printf(" %-8d", i);
     }
     printf("\n");
 
     // Виведення горизонтальної лінії
     printf(" |    ");
     for (int i = 0; i < graph->numCities; ++i) {
-        printf("--------");
+        printf("----------");
     }
     printf("|");
 
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" | \n | %2d |", i); // Номер вершини по горизонталі
+        printf(" |\t\t     |\n | %-18s", graph->cities[i].name); // Назва міста
 
         for (int j = 0; j < graph->numCities; ++j) {
             if (i == j) {
@@ -59,7 +59,7 @@ void calculateDistances(Graph* graph) {
                 double distance = haversine(graph->cities[i].latitude, graph->cities[i].longitude, graph->cities[j].latitude, graph->cities[j].longitude);
                 addEdge(graph, i, j, distance);
             }
-            printf(" %7.2f  ", graph->adjacency_matrix[i][j]);
+            printf("| %7.2f  ", graph->adjacency_matrix[i][j]);
         }
         puts("|");
     }
@@ -72,7 +72,7 @@ void printGraph(Graph* graph) {
     printf("\n  Список заданих пунктів:\n");
     printf(" --------------------------------------------\n");
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" | %2d. %-18s[%.4f, %.4f] |\n", i + 1, graph->cities[i].name, graph->cities[i].latitude, graph->cities[i].longitude);
+        printf(" | %2d. %-18s[%.4f, %.4f] |\n", i, graph->cities[i].name, graph->cities[i].latitude, graph->cities[i].longitude);
     }
     printf(" --------------------------------------------\n");
 }

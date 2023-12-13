@@ -40,12 +40,16 @@ void nearestNeighbor(Graph* graph)
         totalDistance += minDistance; // Додаємо відстань до загальної відстані
         currentVertex = nearestVertex; // Переходимо до найближчої вершини
     }
+    
+    // Додавання зворотнього шляху від останньої вершини до початкової
+    totalDistance += graph->adjacency_matrix[path[graph->numCities - 1]][startVertex];
+    path[pathIndex++] = startVertex;
 
     printf("\n\n================\n");
 
     // 3. Виведення маршруту
     printf("\n У результаті знайдений маршрут ");
-    for (int i = 0; i < graph->numCities; ++i) {
+    for (int i = 0; i <= graph->numCities; ++i) {
         printf("%d-", path[i]);
     }
 
@@ -54,5 +58,6 @@ void nearestNeighbor(Graph* graph)
     for (int i = 0; i < graph->numCities - 1; ++i) {
         printf("%.2f + ", graph->adjacency_matrix[path[i]][path[i + 1]]);
     }
-    printf("\b\b= %.2f кілометрів.\n\n================\n\n", totalDistance);
+    printf("%.2f = %.2f кілометрів.\n\n================\n\n", 
+           graph->adjacency_matrix[path[graph->numCities - 1]][startVertex], totalDistance);
 }
