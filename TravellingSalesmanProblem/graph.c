@@ -46,7 +46,24 @@ void addCity(Graph* graph, char* name, double latitude, double longitude) {
     }
 }
 
+// Функція для обчислення відстаней
 void calculateDistances(Graph* graph) {
+    for (int i = 0; i < graph->numCities; ++i) {
+        for (int j = 0; j < graph->numCities; ++j) {
+            if (i == j) {
+                graph->adjacency_matrix[i][j] = 0.0;
+            }
+            else if (graph->adjacency_matrix[i][j] == 0.0) {
+                double distance = haversine(graph->cities[i].latitude, graph->cities[i].longitude, graph->cities[j].latitude, graph->cities[j].longitude);
+                addEdge(graph, i, j, distance);
+            }
+        }
+    }
+}
+
+// Функція для виведення обчислених відстаней
+void printDistanceMatrix(Graph* graph) {
+    if (graph->numCities > N_TO_PRINT) return 0;
     printf("\n  Матриця відстаней:\n");
     printf(" -------------------------------------------------------------------\n");
     printf(" ");  line("\227", 21);
@@ -69,19 +86,13 @@ void calculateDistances(Graph* graph) {
         printf("\n | %-18s", graph->cities[i].name); // Назва міста
 
         for (int j = 0; j < graph->numCities; ++j) {
-            if (i == j) {
-                graph->adjacency_matrix[i][j] = 0.0;
-            }
-            else if (graph->adjacency_matrix[i][j] == 0.0) {
-                double distance = haversine(graph->cities[i].latitude, graph->cities[i].longitude, graph->cities[j].latitude, graph->cities[j].longitude);
-                addEdge(graph, i, j, distance);
-            }
             printf("| %7.2f  ", graph->adjacency_matrix[i][j]);
         }
         puts("|");
-        printf(" "); line2(" ", 21);  line2("\227", 11 * graph->numCities);
+        printf(" "); line2(" ", 21); line2("\227", 11 * graph->numCities);
     }
 }
+
 
 /***************************************/
 

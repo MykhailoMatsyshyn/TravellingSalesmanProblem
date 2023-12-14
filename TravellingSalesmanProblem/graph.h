@@ -4,11 +4,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "calculations.h"
 
 // Кількість максимальних міст для графу
-#define MAX_CITIES 50
+#define MAX_CITIES 120
+#define N_TO_PRINT 15
 
 // Структура для зберігання координат міст
 typedef struct {

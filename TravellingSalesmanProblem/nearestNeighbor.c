@@ -2,8 +2,12 @@
 
 #include "graph.h"
 
-void nearestNeighbor(Graph* graph) 
-{
+void nearestNeighbor(Graph* graph) {
+    clock_t start, end;
+    double cpu_time_used;
+
+    start = clock();
+
     // 1. Початок з випадкової вершини або заданої початкової точки
     int startVertex = 0; // Вибір початкової вершини (може бути будь-якою)
     int currentVertex = startVertex;
@@ -45,6 +49,8 @@ void nearestNeighbor(Graph* graph)
     totalDistance += graph->adjacency_matrix[path[graph->numCities - 1]][startVertex];
     path[pathIndex++] = startVertex;
 
+    end = clock();
+
     printf("\n\n================\n");
 
     // 3. Виведення маршруту
@@ -58,6 +64,9 @@ void nearestNeighbor(Graph* graph)
     for (int i = 0; i < graph->numCities - 1; ++i) {
         printf("%.2f + ", graph->adjacency_matrix[path[i]][path[i + 1]]);
     }
-    printf("%.2f = %.2f кілометрів.\n\n================\n\n", 
+    printf("%.2f = %.2f кілометрів.\n\n", 
            graph->adjacency_matrix[path[graph->numCities - 1]][startVertex], totalDistance);
+
+    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC; // Обчислюємо час виконання у секундах
+    printf("Час виконання: %.7f секунд\n\n================\n\n", cpu_time_used);
 }
