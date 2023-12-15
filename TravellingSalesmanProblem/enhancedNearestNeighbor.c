@@ -3,6 +3,9 @@
 #include "graph.h"
 #include <limits.h>
 
+clock_t cpu_start, cpu_end, suspended_time;
+double cpu_time_used;
+
 int* findBestPath(Graph* graph, int startVertex) {
     // Отримання пам'яті для масиву шляху
     int* path = malloc((MAX_CITIES + 1) * sizeof(int));
@@ -41,6 +44,9 @@ int* findBestPath(Graph* graph, int startVertex) {
     // Додаємо початкову вершину в кінець шляху
     path[pathIndex] = startVertex;
 
+    cpu_end = clock();
+    suspended_time += cpu_end - cpu_start;
+
     if (graph->numCities <= N_TO_PRINT) {
         // Вивід шляху
         printf("\n Шлях: ");
@@ -50,16 +56,15 @@ int* findBestPath(Graph* graph, int startVertex) {
         printf("\b перетворюється в ");
     }
 
+    cpu_start = clock();
+
     // Повернення масиву шляху
     return path;
 }
 
 
 void enhancedNearestNeighbor(Graph* graph) {
-    clock_t start, end;
-    double cpu_time_used;
-
-    start = clock();
+    cpu_start = clock();
 
     double minDistance = INT_MAX;
     int bestPath[MAX_CITIES];
@@ -94,6 +99,9 @@ void enhancedNearestNeighbor(Graph* graph) {
         // Переконання, що шлях закінчується початковою вершиною
         transformedPath[index] = 0;
 
+        cpu_end = clock();
+        suspended_time += cpu_end - cpu_start;
+
         if (graph->numCities <= N_TO_PRINT) {
             // Вивід перетвореного шляху
             for (int j = 0; j < graph->numCities; ++j) {
@@ -101,6 +109,8 @@ void enhancedNearestNeighbor(Graph* graph) {
             }
             printf("%d\n", transformedPath[graph->numCities]);
         }
+
+        cpu_start = clock();
 
         // Підрахунок відстані для перетвореного шляху
         double totalDistance = 0;
@@ -122,7 +132,8 @@ void enhancedNearestNeighbor(Graph* graph) {
         free(path);
     }
 
-    end = clock();
+    cpu_end = clock();
+    suspended_time += cpu_end - cpu_start;
 
     // Вивід найкоротшого шляху та його відстані
     printf("\nНайкоротший шлях: ");
@@ -131,6 +142,6 @@ void enhancedNearestNeighbor(Graph* graph) {
     }
     printf("%d\nВідстань: %.2f\n", bestPath[graph->numCities], minDistance);
 
-    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC; // Обчислюємо час виконання у секундах
-    printf("Час виконання: %.7f секунд\n", cpu_time_used);
+    cpu_time_used = ((double)(suspended_time)) / CLOCKS_PER_SEC; // Обчислюємо час виконання у секундах
+    printf("\n Час виконання CPU: %.7f секунд\n", cpu_time_used);
 }

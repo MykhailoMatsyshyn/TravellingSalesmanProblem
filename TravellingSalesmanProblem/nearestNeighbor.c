@@ -3,10 +3,15 @@
 #include "graph.h"
 
 void nearestNeighbor(Graph* graph) {
-    clock_t start, end;
+    struct timespec begin;
+    struct timespec end;
+    timespec_get(&begin, TIME_UTC);
+
+
+    clock_t cpu_start, cpu_end;
     double cpu_time_used;
 
-    start = clock();
+    cpu_start = clock();
 
     // 1. Початок з випадкової вершини або заданої початкової точки
     int startVertex = 0; // Вибір початкової вершини (може бути будь-якою)
@@ -49,7 +54,9 @@ void nearestNeighbor(Graph* graph) {
     totalDistance += graph->adjacency_matrix[path[graph->numCities - 1]][startVertex];
     path[pathIndex++] = startVertex;
 
-    end = clock();
+    cpu_end = clock();
+
+    timespec_get(&end, TIME_UTC);
 
     printf("\n\n================\n");
 
@@ -67,6 +74,9 @@ void nearestNeighbor(Graph* graph) {
     printf("%.2f = %.2f кілометрів.\n\n", 
            graph->adjacency_matrix[path[graph->numCities - 1]][startVertex], totalDistance);
 
-    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC; // Обчислюємо час виконання у секундах
-    printf("Час виконання: %.7f секунд\n\n================\n\n", cpu_time_used);
+    double time_spent = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000000000.0;
+    printf(" Час виконання WALL: %.7f секунд\n\n", time_spent);
+
+    cpu_time_used = ((double)(cpu_end - cpu_start)) / CLOCKS_PER_SEC;
+    printf(" Час виконання CPU: %.7f секунд\n\n================\n\n", cpu_time_used);
 }

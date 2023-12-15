@@ -98,10 +98,11 @@ void printDistanceMatrix(Graph* graph) {
 
 // Функція виводу графу
 void printGraph(Graph* graph) {
-    printf("\n  Список заданих пунктів:\n");
+    printf(" --------------------------------------------");
+    printf("\n \x0A6          Список заданих пунктів:         \x0A6\n");
     printf(" --------------------------------------------\n");
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" | %2d. %-18s[%.4f, %.4f] |\n", i, graph->cities[i].name, graph->cities[i].latitude, graph->cities[i].longitude);
+        printf(" \x0A6 %2d. %-18s[%.4f, %.4f] \x0A6\n", i, graph->cities[i].name, graph->cities[i].latitude, graph->cities[i].longitude);
     }
     printf(" --------------------------------------------\n");
 }
