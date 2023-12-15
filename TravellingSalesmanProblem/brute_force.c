@@ -30,10 +30,10 @@ int next_permutation(int* array, int size) {
         right--;
     }
 
-    for (int i = 0; i < size; ++i) {
-        printf("%d ", array[i]);
-    }
-    printf("\n");
+    //for (int i = 0; i < size; ++i) {
+    //    printf("%d ", array[i]);
+    //}
+    //printf("\n");
 
     return 1; // Є ще перестановки
 }
@@ -81,12 +81,12 @@ void bruteForce(Graph* graph) {
             }
         }
 
-        // Виведення поточного порядку вершин
-        printf("Ітерація %d: ", iteration++);
-        for (int i = 0; i < graph->numCities; ++i) {
-            printf("%d ", vertices[i]);
-        }
-        printf(" --> ");
+        //// Виведення поточного порядку вершин
+        //printf("Ітерація %d: ", iteration++);
+        //for (int i = 0; i < graph->numCities; ++i) {
+        //    printf("%d ", vertices[i]);
+        //}
+        //printf(" --> ");
     } while (next_permutation(vertices, graph->numCities)); // Функція next_permutation міняє порядок вершин
 
     clock_t end_time = clock(); // Кінець обчислень

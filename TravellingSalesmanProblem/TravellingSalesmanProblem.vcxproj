@@ -134,6 +134,7 @@
     <ClCompile Include="graph.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="nearestNeighbor.c" />
+    <ClCompile Include="tspBranchAndBound.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calculations.h" />
