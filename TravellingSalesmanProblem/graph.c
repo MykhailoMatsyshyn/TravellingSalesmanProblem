@@ -17,6 +17,8 @@ void line2(const char* sym, int ks) {
 /*******************************************************/
 
 void initializeGraph(Graph* graph) {
+    graph->numCities = 0;
+
     // Ініціалізувати матрицю суміжності нулями
     for (int i = 0; i < MAX_CITIES; ++i) {
         for (int j = 0; j < MAX_CITIES; ++j) {
@@ -93,12 +95,11 @@ void printDistanceMatrix(Graph* graph) {
     }
 }
 
-
 /***************************************/
 
 // Функція виводу графу
 void printGraph(Graph* graph) {
-    printf("\n\n --------------------------------------------");
+    printf("\n --------------------------------------------");
     printf("\n \x0A6          Список заданих пунктів:         \x0A6\n");
     printf(" --------------------------------------------\n");
     for (int i = 0; i < graph->numCities; ++i) {

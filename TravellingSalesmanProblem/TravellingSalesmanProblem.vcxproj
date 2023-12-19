@@ -131,6 +131,7 @@
     <ClCompile Include="brute_force.c" />
     <ClCompile Include="calculations.c" />
     <ClCompile Include="enhancedNearestNeighbor.c" />
+    <ClCompile Include="fileFunc.c" />
     <ClCompile Include="graph.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="nearestNeighbor.c" />

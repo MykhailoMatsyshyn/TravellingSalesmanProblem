@@ -1,86 +1,20 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "algorithms.h"
 
-/*================================================*/
-void loadCitiesFromFile(Graph* graph, const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Не вдалося відкрити файл");
-        return;
-    }
-
-    char city_name[50];
-    double latitude, longitude;
-
-    while (fscanf(file, "%49[^,], %lf, %lf\n", city_name, &latitude, &longitude) == 3) {
-        addCity(graph, city_name, latitude, longitude);
-    }
-
-    fclose(file);
-}
-
+void displayBanner();
 
 int main(int argc, char* argv[]) {
     system("chcp 1251");
 
-    printf("\n \033[0;104m");  line(" ", 65); printf("\033[0m \033[0;104m \033[0m"); line2(" ", 63); printf("\033[0;104m \033[0m");
-    printf("\n \033[0;104m \033[0m\t\t  HUMANITARIAN AID DELIVERY (TSP) \t\t \033[0;103m \033[0m");
-    printf("\n \033[0;103m \033[0m"); line2(" ", 63); printf("\033[0;103m \033[0m"); printf("\n \033[0;103m");  line(" ", 65); printf("\033[0m\n");
+    displayBanner();
 
-    int verticesOptions[] = { 5, 10, 13, 15, 20, 50, 75, 100, 125, 150 };
-    int numOptions = sizeof(verticesOptions) / sizeof(verticesOptions[0]);
-
-    int numVertices, index = -1;
-    printf("\033[1;37m\n Оберіть кількість пунктів (5, 10, 13, 15, 20, 50, 75, 100, 125, 150): \n >> \033[0m");
-    scanf_s("%d", &numVertices);
-
-    for (int i = 0; i < numOptions; i++) {
-        if (verticesOptions[i] == numVertices) {
-            index = i + 1;
-            break;
-        }
-    }
-
-    if (index == -1) {
-        printf("\n \033[0;101m(!) Помилка: Неправильна кількість пунктів.\033[0m\n");
-        return 1;
-    }
-
-    char* filename = argv[index];
+    char* filename = argv[selectDataFile(argc, argv)];
 
     Graph graph;
-    graph.numCities = 0;
-
     initializeGraph(&graph);
     loadCitiesFromFile(&graph, filename);
 
-    //Graph graph;
-
-    //// Ініціалізувати граф
-    //graph.numCities = 0;
-    //initializeGraph(&graph);
-    //
-    //// Додавання міст до графу
-    //addCity(&graph, "Перемишляни", 49.4014, 24.3336);
-    //addCity(&graph, "Львів", 49.8525, 24.0515);
-    //addCity(&graph, "Київ", 50.4501, 30.5234);
-    //addCity(&graph, "Вінниця", 49.2331, 28.4682);
-    //addCity(&graph, "Дніпро", 48.45, 34.9833);
-    //addCity(&graph, "Донецьк", 48.0159, 37.8028);
-    //addCity(&graph, "Житомир", 50.2547, 28.6587);
-    //addCity(&graph, "Одеса", 46.4694, 30.7409);
-    //addCity(&graph, "Харків", 49.9935, 36.2304);
-    //addCity(&graph, "Запоріжжя", 47.8388, 35.1396);
-    ///////* 10 */
-    //addCity(&graph, "Івано-Франківськ", 48.9226, 24.7111);
-
-    // Виведення графу
     printGraph(&graph);
-
-
-    // Обчислення відстаней між вершинами
     calculateDistances(&graph);
-
     printDistanceMatrix(&graph);
 
 
@@ -95,101 +29,8 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-/*================================================*/
-
-
-
-    //addCity(&graph, "Чернівці", 48.2921, 25.9354);
-    //addCity(&graph, "Хмельницький", 49.4225, 26.9871);
-    //addCity(&graph, "Черкаси", 49.4444, 32.0597);
-    //addCity(&graph, "Суми", 50.9077, 34.7981);
-    //addCity(&graph, "Полтава", 49.5937, 34.5407);
-    //addCity(&graph, "Кропивницький", 48.5044, 32.2605);
-    //addCity(&graph, "Рівне", 50.6196, 26.2514);
-    //addCity(&graph, "Тернопіль", 49.5535, 25.5948);
-    //addCity(&graph, "Ужгород", 48.6208, 22.2879);
-    ///* 20 */
-    //addCity(&graph, "Севастополь", 44.6166, 33.5254);
-    //addCity(&graph, "Сімферополь", 44.9521, 34.1024);
-    //addCity(&graph, "Миколаїв", 46.9750, 31.9946);
-    //addCity(&graph, "Херсон", 46.6354, 32.6169);
-    //addCity(&graph, "Краматорськ", 48.7365, 37.5845);
-    /////* 25 */
-    //addCity(&graph, "Володимир-Волин.", 50.8484, 24.3232);
-    //addCity(&graph, "Кам'янець-Поділ.", 48.6843, 26.5809);
-    //addCity(&graph, "Красноармійськ", 48.2921, 37.1835);
-    //addCity(&graph, "Слов'янськ", 48.8671, 37.6184);
-    //addCity(&graph, "Біла Церква", 49.7968, 30.1157);
-    //addCity(&graph, "Ізмаїл", 45.3513, 28.8467);
-    //addCity(&graph, "Хмільник", 49.7982, 27.5725);
-    //addCity(&graph, "Ковель", 51.2184, 24.7067);
-    //addCity(&graph, "Коростень", 50.9584, 28.6333);
-    //addCity(&graph, "Мелітополь", 46.8389, 35.3765);
-    //addCity(&graph, "Прилуки", 50.5934, 32.3875);
-    //addCity(&graph, "Мукачеве", 48.4422, 22.7111);
-    //addCity(&graph, "Дрогобич", 49.3492, 23.5149);
-    //addCity(&graph, "Білгород-Дністр.", 46.1832, 30.3498);
-    //addCity(&graph, "Жмеринка", 49.0383, 28.0973);
-    //addCity(&graph, "Васильків", 50.1792, 30.3083);
-    //addCity(&graph, "Бровари", 50.5200, 30.7936);
-    //addCity(&graph, "Бережани", 49.4419, 24.9347);
-    //addCity(&graph, "Лисичанськ", 48.9226, 38.4424);
-    //addCity(&graph, "Костопіль", 48.5434, 25.7264);
-    //addCity(&graph, "Скадовськ", 46.1175, 32.9054);
-    //addCity(&graph, "Марганець", 47.6485, 34.6367);
-    //addCity(&graph, "Лозова", 48.8884, 36.3176);
-    //addCity(&graph, "Стрий", 49.2584, 23.8469);
-    //addCity(&graph, "Нікополь", 47.5730, 34.3964);
-    /////* 50 */
-    //addCity(&graph, "Бердичів", 49.9005, 28.5916);
-    //addCity(&graph, "Овруч", 51.3173, 28.8003);
-    //addCity(&graph, "Корсунь-Шевчен.", 49.4213, 31.2531);
-    //addCity(&graph, "Славута", 50.3019, 26.8655);
-    //addCity(&graph, "Радомишль", 50.6147, 29.2643);
-    //addCity(&graph, "Новоград-Волин.", 50.5956, 27.6160);
-    //addCity(&graph, "Первомайськ", 48.0500, 30.8500);
-    //addCity(&graph, "Теплодар", 46.6225, 30.4331);
-    //addCity(&graph, "Березань", 50.3289, 30.3065);
-    //addCity(&graph, "Сміла", 49.2305, 31.8837);
-    //addCity(&graph, "Дрогобич", 49.3492, 23.5149);
-    //addCity(&graph, "Дубно", 50.3896, 25.7459);
-    //addCity(&graph, "Старокостянтинів", 49.7639, 27.2201);
-    //addCity(&graph, "Чортків", 49.0167, 25.8000);
-    //addCity(&graph, "Гайворон", 47.2145, 32.7660);
-    //addCity(&graph, "Заліщики", 49.6496, 25.7778);
-    //addCity(&graph, "Тлумач", 48.7628, 24.5558);
-    //addCity(&graph, "Славутич", 51.5221, 30.0776);
-    //addCity(&graph, "Снігурівка", 47.3232, 29.1340);
-    //addCity(&graph, "Кременчук", 49.0661, 33.4133);
-    //addCity(&graph, "Сватове", 49.4139, 38.1488);
-    //addCity(&graph, "Ізюм", 49.2109, 37.2597);
-    //addCity(&graph, "Конотоп", 51.2423, 33.2064);
-    //addCity(&graph, "Боярка", 50.3052, 30.2930);
-    //addCity(&graph, "Сквира", 49.7322, 29.6560);
-    ///* 75 */
-    //addCity(&graph, "Скалат", 49.2767, 25.9291);
-    //addCity(&graph, "Ніжин", 51.0527, 31.8863);
-    //addCity(&graph, "Прилуки", 50.5934, 32.3875);
-    //addCity(&graph, "Дубляни", 49.3647, 24.6412);
-    //addCity(&graph, "Білозерка", 47.1992, 31.3298);
-    //addCity(&graph, "Новий Буг", 47.6997, 32.5235);
-    //addCity(&graph, "Тростянець", 50.9625, 28.9239);
-    //addCity(&graph, "Мена", 51.5184, 31.3033);
-    //addCity(&graph, "Лебедин", 50.5942, 34.4871);
-    //addCity(&graph, "Прилуки", 50.5934, 32.3875);
-    //addCity(&graph, "Боярка", 50.3052, 30.2930);
-    //addCity(&graph, "Шацьк", 51.5028, 23.8663);
-    //addCity(&graph, "Світловодськ", 49.0443, 33.2417);
-    //addCity(&graph, "Бучач", 49.0613, 25.3825);
-    //addCity(&graph, "Ладижин", 48.6847, 29.2476);
-    //addCity(&graph, "Хорол", 49.7997, 33.3012);
-    //addCity(&graph, "Вознесенськ", 47.5607, 31.3341);
-    //addCity(&graph, "Комсомольське", 47.7472, 37.5960);
-    //addCity(&graph, "Білопілля", 50.2855, 34.0297);
-    //addCity(&graph, "Глухів", 51.8669, 33.8856);
-    //addCity(&graph, "Знам'янка", 48.7150, 32.6675);
-    //addCity(&graph, "Дружківка", 48.6147, 37.5527);
-    //addCity(&graph, "Жидачів", 49.3655, 24.1435);
-    //addCity(&graph, "Петропавлівка", 48.7123, 38.4381);
-    //addCity(&graph, "Ланівці", 48.6658, 25.9264);
-    ///* 100 */
+void displayBanner() {
+    printf("\n \033[0;104m");  line(" ", 65); printf("\033[0m \033[0;104m  \033[0m"); line2(" ", 61); printf("\033[0;104m  \033[0m");
+    printf("\n \033[0;104m  \033[0m\t\t  HUMANITARIAN AID DELIVERY (TSP) \t\t\033[0;103m  \033[0m");
+    printf("\n \033[0;103m  \033[0m"); line2(" ", 61); printf("\033[0;103m  \033[0m"); printf("\n \033[0;103m");  line(" ", 65); printf("\033[0m\n");
+}

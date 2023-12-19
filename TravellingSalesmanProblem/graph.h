@@ -10,7 +10,7 @@
 #include "calculations.h"
 
 // Кількість максимальних міст для графу
-#define MAX_CITIES 120
+#define MAX_CITIES 151
 #define N_TO_PRINT 15
 
 // Структура для зберігання координат міст

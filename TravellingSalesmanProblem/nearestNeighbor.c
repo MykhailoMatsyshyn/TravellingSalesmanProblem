@@ -5,12 +5,10 @@
 void nearestNeighbor(Graph* graph) {
     struct timespec begin;
     struct timespec end;
-    timespec_get(&begin, TIME_UTC);
-
-
     clock_t cpu_start, cpu_end;
     double cpu_time_used;
 
+    timespec_get(&begin, TIME_UTC);
     cpu_start = clock();
 
     // 1. Початок з випадкової вершини або заданої початкової точки
@@ -58,25 +56,32 @@ void nearestNeighbor(Graph* graph) {
 
     timespec_get(&end, TIME_UTC);
 
-    printf("\n\n================\n");
+    printf("\n\n ================  \033[1;37m\033[4;37mМетод найближчого сусіда\033[0m ================\n");
 
     // 3. Виведення маршруту
-    printf("\n У результаті знайдений маршрут ");
-    for (int i = 0; i <= graph->numCities; ++i) {
+    printf("\n МАРШРУТ:  ");
+    for (int i = 0; i < graph->numCities; ++i) {
         printf("%d-", path[i]);
     }
+    printf("%d\n           ", startVertex);
+
+    for (int i = 0; i < graph->numCities; ++i) {
+        printf("%s - ", graph->cities[path[i]].name);
+    }
+    printf("%s\n", graph->cities[startVertex].name);
 
     // 4. Виведення загальної відстані
-    printf("\b, який становить відстань:\n ");
+    printf("\n ВІДСТАНЬ: ");
     for (int i = 0; i < graph->numCities - 1; ++i) {
         printf("%.2f + ", graph->adjacency_matrix[path[i]][path[i + 1]]);
     }
-    printf("%.2f = %.2f кілометрів.\n\n", 
+    printf("%.2f = %.2f км.\n\n", 
            graph->adjacency_matrix[path[graph->numCities - 1]][startVertex], totalDistance);
 
     double time_spent = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000000000.0;
-    printf(" Час виконання WALL: %.7f секунд\n\n", time_spent);
+    printf(" [ Час виконання WALL: %.7f секунд ]\n", time_spent);
 
     cpu_time_used = ((double)(cpu_end - cpu_start)) / CLOCKS_PER_SEC;
-    printf(" Час виконання CPU: %.7f секунд\n\n================\n\n", cpu_time_used);
+    printf(" [ Час виконання CPU: %.7f секунд ]\n\n", cpu_time_used);
+    printf(" ===========================================================\n");
 }

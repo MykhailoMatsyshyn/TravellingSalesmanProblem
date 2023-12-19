@@ -1,18 +1,26 @@
 // Реалізація вдосконаленого методу найближчого сусіда
-
 #include "graph.h"
 #include <limits.h>
 
 clock_t cpu_start, cpu_end, suspended_time;
 double cpu_time_used;
 
+struct timespec wall_start, wall_end;
+struct timespec wall_start1, wall_end1;
+struct timespec wall_start2, wall_end2;
+struct timespec wall_start3, wall_end3;
+double time_spent;
+
 int* findBestPath(Graph* graph, int startVertex) {
+    timespec_get(&wall_start3, TIME_UTC);
     // Отримання пам'яті для масиву шляху
     int* path = malloc((MAX_CITIES + 1) * sizeof(int));
     if (path == NULL) {
         printf("Помилка виділення пам'яті\n");
         return NULL;
     }
+    timespec_get(&wall_end3, TIME_UTC);
+    time_spent -= (wall_end3.tv_sec - wall_start3.tv_sec) + (wall_end3.tv_nsec - wall_start3.tv_nsec) / 1000000000.0;
 
     int currentVertex = startVertex;
     int visited[MAX_CITIES];
@@ -44,6 +52,7 @@ int* findBestPath(Graph* graph, int startVertex) {
     // Додаємо початкову вершину в кінець шляху
     path[pathIndex] = startVertex;
 
+    timespec_get(&wall_start2, TIME_UTC);
     cpu_end = clock();
     suspended_time += cpu_end - cpu_start;
 
@@ -57,6 +66,8 @@ int* findBestPath(Graph* graph, int startVertex) {
     }
 
     cpu_start = clock();
+    timespec_get(&wall_end2, TIME_UTC);
+    time_spent -= (wall_end2.tv_sec - wall_start2.tv_sec) + (wall_end2.tv_nsec - wall_start2.tv_nsec) / 1000000000.0;
 
     // Повернення масиву шляху
     return path;
@@ -64,7 +75,10 @@ int* findBestPath(Graph* graph, int startVertex) {
 
 
 void enhancedNearestNeighbor(Graph* graph) {
+    printf("\n\n =========  \033[1;37m\033[4;37mУдосконалений метод найближчого сусіда\033[0m =========\n");
+
     cpu_start = clock();
+    timespec_get(&wall_start, TIME_UTC);
 
     double minDistance = INT_MAX;
     int bestPath[MAX_CITIES];
@@ -99,6 +113,7 @@ void enhancedNearestNeighbor(Graph* graph) {
         // Переконання, що шлях закінчується початковою вершиною
         transformedPath[index] = 0;
 
+        timespec_get(&wall_start1, TIME_UTC);
         cpu_end = clock();
         suspended_time += cpu_end - cpu_start;
 
@@ -111,6 +126,8 @@ void enhancedNearestNeighbor(Graph* graph) {
         }
 
         cpu_start = clock();
+        timespec_get(&wall_end1, TIME_UTC);
+        time_spent -= (wall_end1.tv_sec - wall_start1.tv_sec) + (wall_end1.tv_nsec - wall_start1.tv_nsec) / 1000000000.0;
 
         // Підрахунок відстані для перетвореного шляху
         double totalDistance = 0;
@@ -132,16 +149,33 @@ void enhancedNearestNeighbor(Graph* graph) {
         free(path);
     }
 
+    timespec_get(&wall_end, TIME_UTC);
     cpu_end = clock();
     suspended_time += cpu_end - cpu_start;
 
     // Вивід найкоротшого шляху та його відстані
-    printf("\nНайкоротший шлях: ");
+    printf("\n\n МАРШРУТ:  ");
     for (int i = 0; i < graph->numCities; ++i) {
         printf("%d-", bestPath[i]);
     }
-    printf("%d\nВідстань: %.2f\n", bestPath[graph->numCities], minDistance);
+    printf("%d\n           ", bestPath[graph->numCities]);
 
-    cpu_time_used = ((double)(suspended_time)) / CLOCKS_PER_SEC; // Обчислюємо час виконання у секундах
-    printf("\n Час виконання CPU: %.7f секунд\n", cpu_time_used);
+    for (int i = 0; i < graph->numCities; ++i) {
+        printf("%s - ", graph->cities[bestPath[i]].name);
+    }
+    printf("%s\n", graph->cities[bestPath[graph->numCities]].name);
+
+    printf("\n ВІДСТАНЬ: ");
+    for (int i = 0; i < graph->numCities-1; ++i) {
+        printf("%.2f + ", graph->adjacency_matrix[bestPath[i]][bestPath[i + 1]]);
+    }
+    printf("%.2f = %.2f км.\n\n", graph->adjacency_matrix[bestPath[graph->numCities - 1]][bestPath[0]], minDistance);
+
+
+    time_spent += (wall_end.tv_sec - wall_start.tv_sec) + (wall_end.tv_nsec - wall_start.tv_nsec) / 1000000000.0;
+    printf(" [ Час виконання WALL: %.7f секунд ]\n", time_spent);
+
+    cpu_time_used = ((double)(cpu_end - cpu_start)) / CLOCKS_PER_SEC;
+    printf(" [ Час виконання CPU: %.7f секунд ]\n\n", cpu_time_used);
+    printf(" ===========================================================\n");
 }
