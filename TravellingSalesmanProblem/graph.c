@@ -98,7 +98,7 @@ void printDistanceMatrix(Graph* graph) {
 
 // Функція виводу графу
 void printGraph(Graph* graph) {
-    printf(" --------------------------------------------");
+    printf("\n\n --------------------------------------------");
     printf("\n \x0A6          Список заданих пунктів:         \x0A6\n");
     printf(" --------------------------------------------\n");
     for (int i = 0; i < graph->numCities; ++i) {

@@ -51,4 +51,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="10.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="5.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="13.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="15.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="20.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="50.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="75.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="100.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="125.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="150.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

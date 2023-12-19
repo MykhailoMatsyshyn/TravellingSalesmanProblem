@@ -35,5 +35,4 @@ void calculateDistances(Graph* graph);
 
 void printGraph(Graph* graph);
 
-
 #endif /* GRAPH_H */

@@ -1,29 +1,104 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "algorithms.h"
 
 /*================================================*/
+void loadCitiesFromFile(Graph* graph, const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Не вдалося відкрити файл");
+        return;
+    }
 
-int main() {
+    char city_name[50];
+    double latitude, longitude;
+
+    while (fscanf(file, "%49[^,], %lf, %lf\n", city_name, &latitude, &longitude) == 3) {
+        addCity(graph, city_name, latitude, longitude);
+    }
+
+    fclose(file);
+}
+
+
+int main(int argc, char* argv[]) {
     system("chcp 1251");
 
-    Graph graph;
+    printf("\n \033[0;104m");  line(" ", 65); printf("\033[0m \033[0;104m \033[0m"); line2(" ", 63); printf("\033[0;104m \033[0m");
+    printf("\n \033[0;104m \033[0m\t\t  HUMANITARIAN AID DELIVERY (TSP) \t\t \033[0;103m \033[0m");
+    printf("\n \033[0;103m \033[0m"); line2(" ", 63); printf("\033[0;103m \033[0m"); printf("\n \033[0;103m");  line(" ", 65); printf("\033[0m\n");
 
-    // Ініціалізувати граф
+    int verticesOptions[] = { 5, 10, 13, 15, 20, 50, 75, 100, 125, 150 };
+    int numOptions = sizeof(verticesOptions) / sizeof(verticesOptions[0]);
+
+    int numVertices, index = -1;
+    printf("\033[1;37m\n Оберіть кількість пунктів (5, 10, 13, 15, 20, 50, 75, 100, 125, 150): \n >> \033[0m");
+    scanf_s("%d", &numVertices);
+
+    for (int i = 0; i < numOptions; i++) {
+        if (verticesOptions[i] == numVertices) {
+            index = i + 1;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        printf("\n \033[0;101m(!) Помилка: Неправильна кількість пунктів.\033[0m\n");
+        return 1;
+    }
+
+    char* filename = argv[index];
+
+    Graph graph;
     graph.numCities = 0;
+
     initializeGraph(&graph);
-    
-    // Додавання міст до графу
-    addCity(&graph, "Перемишляни", 49.4014, 24.3336);
-    addCity(&graph, "Львів", 49.8525, 24.0515);
-    addCity(&graph, "Київ", 50.4501, 30.5234);
-    addCity(&graph, "Вінниця", 49.2331, 28.4682);
+    loadCitiesFromFile(&graph, filename);
+
+    //Graph graph;
+
+    //// Ініціалізувати граф
+    //graph.numCities = 0;
+    //initializeGraph(&graph);
+    //
+    //// Додавання міст до графу
+    //addCity(&graph, "Перемишляни", 49.4014, 24.3336);
+    //addCity(&graph, "Львів", 49.8525, 24.0515);
+    //addCity(&graph, "Київ", 50.4501, 30.5234);
+    //addCity(&graph, "Вінниця", 49.2331, 28.4682);
     //addCity(&graph, "Дніпро", 48.45, 34.9833);
     //addCity(&graph, "Донецьк", 48.0159, 37.8028);
     //addCity(&graph, "Житомир", 50.2547, 28.6587);
     //addCity(&graph, "Одеса", 46.4694, 30.7409);
     //addCity(&graph, "Харків", 49.9935, 36.2304);
     //addCity(&graph, "Запоріжжя", 47.8388, 35.1396);
-    /////* 10 */
+    ///////* 10 */
     //addCity(&graph, "Івано-Франківськ", 48.9226, 24.7111);
+
+    // Виведення графу
+    printGraph(&graph);
+
+
+    // Обчислення відстаней між вершинами
+    calculateDistances(&graph);
+
+    printDistanceMatrix(&graph);
+
+
+    nearestNeighbor(&graph);
+
+    enhancedNearestNeighbor(&graph);
+
+    bruteForce(&graph);
+
+    tspBranchAndBound(&graph);
+
+    return 0;
+}
+
+/*================================================*/
+
+
+
     //addCity(&graph, "Чернівці", 48.2921, 25.9354);
     //addCity(&graph, "Хмельницький", 49.4225, 26.9871);
     //addCity(&graph, "Черкаси", 49.4444, 32.0597);
@@ -118,26 +193,3 @@ int main() {
     //addCity(&graph, "Петропавлівка", 48.7123, 38.4381);
     //addCity(&graph, "Ланівці", 48.6658, 25.9264);
     ///* 100 */
-
-    // Виведення графу
-    printGraph(&graph);
-
-
-    // Обчислення відстаней між вершинами
-    calculateDistances(&graph);
-
-    printDistanceMatrix(&graph);
-
-
-    nearestNeighbor(&graph);
-
-    enhancedNearestNeighbor(&graph);
-
-    bruteForce(&graph);
-
-    tspBranchAndBound(&graph);
-
-    return 0;
-}
-
-/*================================================*/
