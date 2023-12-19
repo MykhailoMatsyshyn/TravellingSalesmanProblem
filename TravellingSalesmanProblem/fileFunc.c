@@ -36,7 +36,7 @@ int selectDataFile(int argc, char* argv[]) {
 
     if (index == -1) {
         printf("\n \033[0;101m(!) Помилка: Неправильна кількість пунктів.\033[0m\n");
-        return NULL;
+        exit(1001);
     }
 
     return index;

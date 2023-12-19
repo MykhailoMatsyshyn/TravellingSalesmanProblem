@@ -17,12 +17,12 @@ int main(int argc, char* argv[]) {
     calculateDistances(&graph);
     printDistanceMatrix(&graph);
 
+    bruteForce(&graph);
 
     nearestNeighbor(&graph);
 
     enhancedNearestNeighbor(&graph);
 
-    bruteForce(&graph);
 
     tspBranchAndBound(&graph);
 
