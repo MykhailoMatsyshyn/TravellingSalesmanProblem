@@ -45,6 +45,9 @@
     <ClCompile Include="fileFunc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="insertion.c">
+      <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graph.h">

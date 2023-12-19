@@ -56,14 +56,14 @@ int* findBestPath(Graph* graph, int startVertex) {
     cpu_end = clock();
     suspended_time += cpu_end - cpu_start;
 
-    if (graph->numCities <= N_TO_PRINT) {
-        // Вивід шляху
-        printf("\n Шлях: ");
-        for (int i = 0; i <= graph->numCities; ++i) {
-            printf("%d-", path[i]);
-        }
-        printf("\b перетворюється в ");
-    }
+    //if (graph->numCities <= N_TO_PRINT) {
+    //    // Вивід шляху
+    //    printf("\n Шлях: ");
+    //    for (int i = 0; i <= graph->numCities; ++i) {
+    //        printf("%d-", path[i]);
+    //    }
+    //    printf("\b перетворюється в ");
+    //}
 
     cpu_start = clock();
     timespec_get(&wall_end2, TIME_UTC);
@@ -117,13 +117,13 @@ void enhancedNearestNeighbor(Graph* graph) {
         cpu_end = clock();
         suspended_time += cpu_end - cpu_start;
 
-        if (graph->numCities <= N_TO_PRINT) {
-            // Вивід перетвореного шляху
-            for (int j = 0; j < graph->numCities; ++j) {
-                printf("%d-", transformedPath[j]);
-            }
-            printf("%d\n", transformedPath[graph->numCities]);
-        }
+        //if (graph->numCities <= N_TO_PRINT) {
+        //    // Вивід перетвореного шляху
+        //    for (int j = 0; j < graph->numCities; ++j) {
+        //        printf("%d-", transformedPath[j]);
+        //    }
+        //    printf("%d\n", transformedPath[graph->numCities]);
+        //}
 
         cpu_start = clock();
         timespec_get(&wall_end1, TIME_UTC);
@@ -161,7 +161,7 @@ void enhancedNearestNeighbor(Graph* graph) {
     printf("%d\n           ", bestPath[graph->numCities]);
 
     for (int i = 0; i < graph->numCities; ++i) {
-        printf("%s - ", graph->cities[bestPath[i]].name);
+        printf("%s -> ", graph->cities[bestPath[i]].name);
     }
     printf("%s\n", graph->cities[bestPath[graph->numCities]].name);
 

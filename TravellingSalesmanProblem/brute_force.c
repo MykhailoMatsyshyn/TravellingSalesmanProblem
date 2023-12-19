@@ -110,7 +110,7 @@ void bruteForce(Graph* graph) {
     printf("%d\n           ", bestPath[0]); // Повернення до початкової вершини
 
     for (int i = 0; i < graph->numCities; ++i) {
-        printf("%s - ", graph->cities[bestPath[i]].name);
+        printf("%s -> ", graph->cities[bestPath[i]].name);
     }
     printf("%s\n", graph->cities[bestPath[0]].name); // Повернення до початкової вершини
 

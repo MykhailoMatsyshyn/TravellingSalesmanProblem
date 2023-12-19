@@ -66,7 +66,7 @@ void nearestNeighbor(Graph* graph) {
     printf("%d\n           ", startVertex);
 
     for (int i = 0; i < graph->numCities; ++i) {
-        printf("%s - ", graph->cities[path[i]].name);
+        printf("%s -> ", graph->cities[path[i]].name);
     }
     printf("%s\n", graph->cities[startVertex].name);
 

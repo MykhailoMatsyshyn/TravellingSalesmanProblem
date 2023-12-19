@@ -23,7 +23,9 @@ int main(int argc, char* argv[]) {
 
     enhancedNearestNeighbor(&graph);
 
+    insertionTSP(&graph);
 
+    printf("\n\n-----------------------------\n\n");
     tspBranchAndBound(&graph);
 
     return 0;
