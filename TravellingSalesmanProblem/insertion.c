@@ -19,7 +19,7 @@ int findNearestNotInRoute(Graph* graph, int* inRoute, int numCities) {
 }
 
 void insertionTSP(Graph* graph) {
-    printf("\n\n ====================== \033[1;37m\033[4;37mМетод вставки\033[0m =====================\n");
+    printf("\n\n ======================= \033[1;37m\033[4;37mМетод вставки\033[0m =====================\n");
 
     int numCities = graph->numCities;
     int* route = malloc(numCities * sizeof(int));  // Масив для зберігання маршруту

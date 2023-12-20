@@ -25,8 +25,7 @@ int main(int argc, char* argv[]) {
 
     insertionTSP(&graph);
 
-    printf("\n\n-----------------------------\n\n");
-    tspBranchAndBound(&graph);
+    branchAndBound(&graph);
 
     return 0;
 }

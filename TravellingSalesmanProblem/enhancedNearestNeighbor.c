@@ -154,7 +154,7 @@ void enhancedNearestNeighbor(Graph* graph) {
     suspended_time += cpu_end - cpu_start;
 
     // ֲטג³ה םאיךמנמערמדמ רכÿץף עא ימדמ ג³הסעאם³
-    printf("\n\n ְּ׀״׀׃ׂ:  ");
+    printf("\n ְּ׀״׀׃ׂ:  ");
     for (int i = 0; i < graph->numCities; ++i) {
         printf("%d-", bestPath[i]);
     }
