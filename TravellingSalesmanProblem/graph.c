@@ -67,22 +67,15 @@ void calculateDistances(Graph* graph) {
 void printDistanceMatrix(Graph* graph) {
     if (graph->numCities > N_TO_PRINT) return 0;
     printf("\n  Матриця відстаней:\n");
-    printf(" -------------------------------------------------------------------\n");
-    printf(" ");  line("\227", 21);
-
+    printf(" "); line2("\227", 21); line2("\227", 11 * graph->numCities);
+    printf("\n | Пункти:\\Їх номера:"); /* line2(" ", 19);*/
     // Виведення вертикальних номерів вершин
-    printf(" |"); line2(" ", 19);
     for (int i = 0; i < graph->numCities; ++i) {
         printf("|    %2d    ", i);
     }
     printf("|\n");
 
-    // Виведення горизонтальної лінії
-    printf(" |    ");
-    for (int i = 0; i < graph->numCities; ++i) {
-        printf("----------");
-    }
-    printf("|");
+    printf(" "); line2("\227", 21); line2("\227", 11 * graph->numCities);
 
     for (int i = 0; i < graph->numCities; ++i) {
         printf("\n | %-18s", graph->cities[i].name); // Назва міста
@@ -91,7 +84,7 @@ void printDistanceMatrix(Graph* graph) {
             printf("| %7.2f  ", graph->adjacency_matrix[i][j]);
         }
         puts("|");
-        printf(" "); line2(" ", 21); line2("\227", 11 * graph->numCities);
+        printf(" "); line2("\227", 21); line2("\227", 11 * graph->numCities);
     }
 }
 
@@ -99,11 +92,11 @@ void printDistanceMatrix(Graph* graph) {
 
 // Функція виводу графу
 void printGraph(Graph* graph) {
-    printf("\n --------------------------------------------");
-    printf("\n \x0A6          Список заданих пунктів:         \x0A6\n");
-    printf(" --------------------------------------------\n");
+    printf("\n ---------------------------------------------");
+    printf("\n \x0A6           Список заданих пунктів:         \x0A6\n");
+    printf(" ---------------------------------------------\n");
     for (int i = 0; i < graph->numCities; ++i) {
-        printf(" \x0A6 %2d. %-18s[%.4f, %.4f] \x0A6\n", i, graph->cities[i].name, graph->cities[i].latitude, graph->cities[i].longitude);
+        printf(" \x0A6 %3d. %-18s[%.4f, %.4f] \x0A6\n", i, graph->cities[i].name, graph->cities[i].latitude, graph->cities[i].longitude);
     }
     printf(" --------------------------------------------\n");
 }
