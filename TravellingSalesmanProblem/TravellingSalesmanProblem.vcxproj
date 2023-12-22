@@ -132,6 +132,7 @@
     <ClCompile Include="calculations.c" />
     <ClCompile Include="enhancedNearestNeighbor.c" />
     <ClCompile Include="fileFunc.c" />
+    <ClCompile Include="genetic.c" />
     <ClCompile Include="graph.c" />
     <ClCompile Include="insertion.c" />
     <ClCompile Include="Main.c" />

@@ -112,7 +112,6 @@ void branchAndBoundRecursive(double** matrix, int n, int level, double currentCo
     }
 }
 
-
 void branchAndBound(Graph* graph) {
     printf("\n\n ==================== \033[1;37m\033[4;37mМетод гілок і меж\033[0m ====================\n");
 
@@ -124,7 +123,7 @@ void branchAndBound(Graph* graph) {
             matrix[i][j] = graph->adjacency_matrix[i][j];
         }
     }
-
+     
     double lowerBound = 0;
     reduceMatrix(matrix, n, &lowerBound);
 

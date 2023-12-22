@@ -27,6 +27,8 @@ int main(int argc, char* argv[]) {
 
     branchAndBound(&graph);
 
+    //runGeneticAlgorithm(&graph);
+
     return 0;
 }
 
