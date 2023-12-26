@@ -104,7 +104,7 @@ void bruteForce(Graph* graph) {
 
     double cpu_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
 
-    printf("\n МАРШРУТ:  ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mМАРШРУТ:\033[0m  ");
     for (int i = 0; i < graph->numCities; ++i) {
         printf("%d-", bestPath[i]);
     }
@@ -115,11 +115,11 @@ void bruteForce(Graph* graph) {
     }
     printf("%s\n", graph->cities[bestPath[0]].name); // Повернення до початкової вершини
 
-    printf("\n ВІДСТАНЬ: ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mВІДСТАНЬ:\033[0m ");
     for (int i = 0; i < graph->numCities - 1; ++i) {
         printf("%.2f + ", graph->adjacency_matrix[bestPath[i]][bestPath[i + 1]]);
     }
-    printf("%.2f = %.2f км.\n\n", graph->adjacency_matrix[bestPath[graph->numCities - 1]][bestPath[0]], minDistance);
+    printf("%.2f = \033[0;103m%.2f км.\033[0m\n\n", graph->adjacency_matrix[bestPath[graph->numCities - 1]][bestPath[0]], minDistance);
 
     double time_spent = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000000000.0;
     printf(" [ Час виконання WALL: %.7f секунд ]\n", time_spent);

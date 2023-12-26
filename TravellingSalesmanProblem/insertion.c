@@ -41,6 +41,7 @@ void insertionTSP(Graph* graph) {
     // Поступово додавання найближчих точок
     for (int i = 3; i < numCities; ++i) {
         int nearest = findNearestNotInRoute(graph, inRoute, numCities);
+        //printf("Найближча точка, що не в маршруті: %d\n", nearest);
         inRoute[nearest] = 1;
 
         // Знаходження найкращого місця для вставки точки
@@ -56,6 +57,7 @@ void insertionTSP(Graph* graph) {
                 bestPosition = j + 1;
             }
         }
+        //printf("Найкраща позиція для вставки: %d\n", bestPosition);
 
         // Вставка точки в маршрут
         for (int j = routeSize; j > bestPosition; --j) {
@@ -63,6 +65,12 @@ void insertionTSP(Graph* graph) {
         }
         route[bestPosition] = nearest;
         routeSize++;
+        // Виведення поточного маршруту після вставки
+        //printf("Поточний маршрут: ");
+        //for (int k = 0; k < routeSize; ++k) {
+        //    printf("%d ", route[k]);
+        //}
+        //printf("\n");
     }
 
     cpu_end = clock();
@@ -70,7 +78,7 @@ void insertionTSP(Graph* graph) {
 
     // Обчислення загальної відстані та виведення маршруту
     double totalDistance = 0.0;
-    printf("\n МАРШРУТ:  ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mМАРШРУТ:\033[0m  ");
     for (int i = 0; i < numCities - 1; ++i) {
         printf("%d-", route[i]);
         totalDistance += graph->adjacency_matrix[route[i]][route[i + 1]];
@@ -85,11 +93,11 @@ void insertionTSP(Graph* graph) {
     printf("%s -> %s\n", graph->cities[route[numCities - 1]].name, graph->cities[route[0]].name);
 
     // Виведення загальної відстані
-    printf("\n ВІДСТАНЬ: ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mВІДСТАНЬ:\033[0m ");
     for (int i = 0; i < numCities - 1; ++i) {
         printf("%.2f + ", graph->adjacency_matrix[route[i]][route[i + 1]]);
     }
-    printf("%.2f = %.2f км.\n\n", graph->adjacency_matrix[route[numCities - 1]][route[0]], totalDistance);
+    printf("%.2f = \033[0;103m%.2f км.\033[0m\n\n", graph->adjacency_matrix[route[numCities - 1]][route[0]], totalDistance);
 
     double time_spent = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000000000.0;
     printf(" [ Час виконання WALL: %.7f секунд ]\n", time_spent);

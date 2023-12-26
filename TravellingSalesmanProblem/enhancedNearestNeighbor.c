@@ -73,7 +73,6 @@ int* findBestPath(Graph* graph, int startVertex) {
     return path;
 }
 
-
 void enhancedNearestNeighbor(Graph* graph) {
     printf("\n\n =========  \033[1;37m\033[4;37mУдосконалений метод найближчого сусіда\033[0m =========\n");
 
@@ -154,7 +153,7 @@ void enhancedNearestNeighbor(Graph* graph) {
     suspended_time += cpu_end - cpu_start;
 
     // Вивід найкоротшого шляху та його відстані
-    printf("\n МАРШРУТ:  ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mМАРШРУТ:\033[0m  ");
     for (int i = 0; i < graph->numCities; ++i) {
         printf("%d-", bestPath[i]);
     }
@@ -165,11 +164,11 @@ void enhancedNearestNeighbor(Graph* graph) {
     }
     printf("%s\n", graph->cities[bestPath[graph->numCities]].name);
 
-    printf("\n ВІДСТАНЬ: ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mВІДСТАНЬ:\033[0m ");
     for (int i = 0; i < graph->numCities-1; ++i) {
         printf("%.2f + ", graph->adjacency_matrix[bestPath[i]][bestPath[i + 1]]);
     }
-    printf("%.2f = %.2f км.\n\n", graph->adjacency_matrix[bestPath[graph->numCities - 1]][bestPath[0]], minDistance);
+    printf("%.2f = \033[0;103m%.2f км.\033[0m\n\n", graph->adjacency_matrix[bestPath[graph->numCities - 1]][bestPath[0]], minDistance);
 
 
     time_spent += (wall_end.tv_sec - wall_start.tv_sec) + (wall_end.tv_nsec - wall_start.tv_nsec) / 1000000000.0;

@@ -59,7 +59,7 @@ void nearestNeighbor(Graph* graph) {
     printf("\n\n ================  \033[1;37m\033[4;37mМетод найближчого сусіда\033[0m ================\n");
 
     // 3. Виведення маршруту
-    printf("\n МАРШРУТ:  ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mМАРШРУТ:\033[0m  ");
     for (int i = 0; i < graph->numCities; ++i) {
         printf("%d-", path[i]);
     }
@@ -71,11 +71,11 @@ void nearestNeighbor(Graph* graph) {
     printf("%s\n", graph->cities[startVertex].name);
 
     // 4. Виведення загальної відстані
-    printf("\n ВІДСТАНЬ: ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mВІДСТАНЬ:\033[0m ");
     for (int i = 0; i < graph->numCities - 1; ++i) {
         printf("%.2f + ", graph->adjacency_matrix[path[i]][path[i + 1]]);
     }
-    printf("%.2f = %.2f км.\n\n", 
+    printf("%.2f = \033[0;103m%.2f км.\033[0m\n\n", 
            graph->adjacency_matrix[path[graph->numCities - 1]][startVertex], totalDistance);
 
     double time_spent = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000000000.0;

@@ -1,6 +1,7 @@
 #include "graph.h"
 
 /*******************************************************************************************************************/
+int gen;
 
 // Функція для створення копії маршруту
 void copyRoute(int* source, int* destination, int numCities) {
@@ -54,12 +55,14 @@ void initializePopulation(Graph* graph, int populationSize, int*** population) {
 	(*population)[0] = (int*)malloc(graph->numCities * sizeof(int));
 	copyRoute(baseRoute, (*population)[0], graph->numCities);
 
-	// Вивід першого маршруту для перевірки
-	printf(" Маршрут   0: ");
-	for (int j = 0; j < graph->numCities; j++) {
-		printf("%d ", (*population)[0][j]);
+	if (gen == 0) {
+		// Вивід першого маршруту для перевірки
+		printf(" Маршрут   0: ");
+		for (int j = 0; j < graph->numCities; j++) {
+			printf("%d ", (*population)[0][j]);
+		}
+		printf("\n");
 	}
-	printf("\n");
 
 	// Генерація решти популяції з випадковими маршрутами
 	for (int i = 1; i < populationSize; i++) {
@@ -70,12 +73,14 @@ void initializePopulation(Graph* graph, int populationSize, int*** population) {
 		(*population)[i] = (int*)malloc(graph->numCities * sizeof(int));
 		copyRoute(baseRoute, (*population)[i], graph->numCities);
 
-		// Вивід маршруту для перевірки
-		printf(" Маршрут %3d: ", i);
-		for (int j = 0; j < graph->numCities; j++) {
-			printf("%d ", (*population)[i][j]);
+		if (gen == 0) {
+			// Вивід маршруту для перевірки
+			printf(" Маршрут %3d: ", i);
+			for (int j = 0; j < graph->numCities; j++) {
+				printf("%d ", (*population)[i][j]);
+			}
+			printf("\n");
 		}
-		printf("\n");
 	}
 
 	// Звільнення пам'яті базового маршруту
@@ -98,14 +103,14 @@ double calculateRouteDistance(Graph* graph, int* route) {
 
 // Функція для обчислення пристосування кожного маршруту
 void calculateFitness(Graph* graph, int** population, int populationSize, double* fitness) {
-	printf("\n Пристосування:\n");
+	if (gen == 0) printf("\n Пристосування:\n");
 	for (int i = 0; i < populationSize; i++) {
 		fitness[i] = calculateRouteDistance(graph, population[i]);
 
 		// Виведення результату для перевірки
-		printf(" %d: %f\n", i, fitness[i]);
+		if (gen == 0) printf(" %3d: %f\n", i, fitness[i]);
 	}
-	printf("\n");
+	if (gen == 0) printf("\n");
 }
 
 /*******************************************************************************************************************/
@@ -125,25 +130,27 @@ void selectParents(int** population, int populationSize, double* fitness, int** 
 		parents[1][j] = population[parentIndex2][j];
 	}
 
-	// Виведення інформації про вибрані особи
-	printf(" Батьківська особа 1: \n   Фітнес = %f, \n   Маршрут: ", fitness[parentIndex1]);
-	for (int j = 0; j < numCities; j++) {
-		printf("%d ", parents[0][j]);
-	}
-	printf("\n");
+	if (gen == 0) {
+		// Виведення інформації про вибрані особи
+		printf(" Батьківська особа 1: \n   Фітнес = %f, \n   Маршрут: ", fitness[parentIndex1]);
+		for (int j = 0; j < numCities; j++) {
+			printf("%d ", parents[0][j]);
+		}
+		printf("\n");
 
-	printf("\n Батьківська особа 2: \n   Фітнес = %f, \n   Маршрут: ", fitness[parentIndex2]);
-	for (int j = 0; j < numCities; j++) {
-		printf("%d ", parents[1][j]);
+		printf("\n Батьківська особа 2: \n   Фітнес = %f, \n   Маршрут: ", fitness[parentIndex2]);
+		for (int j = 0; j < numCities; j++) {
+			printf("%d ", parents[1][j]);
+		}
+		printf("\n");
 	}
-	printf("\n");
 }
 
 /*******************************************************************************************************************/
 
 // Одноточковий кросовер
 void crossover(int* parent1, int* parent2, int* offspring, int numCities, int crossoverPoint) {
-	printf("   Точка розриву: %d\n", crossoverPoint);
+	if (gen == 0) printf("   Точка розриву: %d\n", crossoverPoint);
 
 	// Масив для відстеження, які гени вже присутні в нащадку
 	int* geneExists = (int*)malloc(numCities * sizeof(int));
@@ -173,12 +180,14 @@ void crossover(int* parent1, int* parent2, int* offspring, int numCities, int cr
 		}
 	}
 
-	// Виведення результуючого нащадка
-	printf("   Нащадок: ");
-	for (int i = 0; i < numCities; i++) {
-		printf("%d ", offspring[i]);
+	if (gen == 0) {
+		// Виведення результуючого нащадка
+		printf("   Нащадок: ");
+		for (int i = 0; i < numCities; i++) {
+			printf("%d ", offspring[i]);
+		}
+		puts("\n");
 	}
-	puts("\n");
 
 	// Звільнення виділеної пам'яті для масиву geneExists
 	free(geneExists);
@@ -229,57 +238,52 @@ void formNewGeneration(int*** population, int** offspring, int populationSize, i
 	// Сортуємо масив за фітнесом
 	qsort(routesWithFitness, populationSize, sizeof(RouteWithFitness), compareFitness);
 
-	// Виводимо відсортовану популяцію та фітнес
-	printf(" Популяція після сортування:\n\n");
-	for (int i = 0; i < populationSize; i++) {
-		printf("  Маршрут %.3d: ", i);
-		for (int j = 0; j < graph->numCities; j++) {
-			printf("%d ", routesWithFitness[i].route[j]);
-		}
-		printf("    Фітнес: %.2lf\n", routesWithFitness[i].fitness);
-	}
-
-	// Видалення попередньої популяції
-	for (int i = 0; i < populationSize; i++) {
-		free((*population)[i]);
-	}
-	free(*population);
-
-	// Оновлення популяції з новими маршрутами
-	*population = (int**)malloc(populationSize * sizeof(int*));
-	for (int i = 0; i < populationSize; i++) {
-		// Виділення пам'яті для нового маршруту
-		(*population)[i] = (int*)malloc(graph->numCities * sizeof(int));
-
-		// Копіювання значень нового маршруту
-		for (int j = 0; j < graph->numCities; j++) {
-			(*population)[i][j] = routesWithFitness[i].route[j];
+	if (gen == 0) {
+		// Виводимо відсортовану популяцію та фітнес
+		printf(" Популяція після сортування:\n\n");
+		for (int i = 0; i < populationSize; i++) {
+			printf("  Маршрут %.3d: ", i);
+			for (int j = 0; j < graph->numCities; j++) {
+				printf("%d ", routesWithFitness[i].route[j]);
+			}
+			printf("    Фітнес: %.2lf\n", routesWithFitness[i].fitness);
 		}
 	}
 
-	//// Звільнюємо тимчасовий масив структур
-	//free(routesWithFitness);
+	// Видалення останніх двох елементів з масиву routesWithFitness
+	routesWithFitness[populationSize - 1].route = NULL;
+	routesWithFitness[populationSize - 2].route = NULL;
 
-	//// Заміна нащадків
-	//for (int i = 0; i < numOffspring; i++) {
-	//	int replaceIndex = rand() % populationSize;
-	//	free((*population)[replaceIndex]);
-	//	(*population)[replaceIndex] = offspring[i];
-	//}
+	// Додавання двох нових нащадків
+	routesWithFitness[populationSize - 1].route = offspring[0];
+	routesWithFitness[populationSize - 2].route = offspring[1];
 
-	// Вивід маршруту для перевірки
+	// Присвоєння фітнесу новим нащадкам у масиві routesWithFitness
+	routesWithFitness[populationSize - 1].fitness = calculateRouteDistance(graph, offspring[0]);
+	routesWithFitness[populationSize - 2].fitness = calculateRouteDistance(graph, offspring[1]);
+
+
+	// Сортування масиву routesWithFitness за фітнесом
+	qsort(routesWithFitness, populationSize, sizeof(RouteWithFitness), compareFitness);
+
+	// Оновлення масиву population з оновленою популяцією
 	for (int i = 0; i < populationSize; i++) {
-		printf(" Маршрут %3d: ", i);
-		for (int j = 0; j < graph->numCities; j++) {
-			printf("%d ", (*population)[i][j]);
+		(*population)[i] = routesWithFitness[i].route;
+		// Оновлення фітнесу в масиві fitness
+		fitness[i] = routesWithFitness[i].fitness;
+	}
+
+	if (gen == 0) {
+		// Виводимо відсортовану популяцію та фітнес
+		printf("\n Сформована нова популяція:\n\n");
+		for (int i = 0; i < populationSize; i++) {
+			printf("  Маршрут %.3d: ", i);
+			for (int j = 0; j < graph->numCities; j++) {
+				printf("%d ", routesWithFitness[i].route[j]);
+			}
+			printf("    Фітнес: %.2lf\n", routesWithFitness[i].fitness);
 		}
-		printf("\n");
 	}
-
-	for (int i = 0; i < populationSize; i++) {
-		printf("Фітнес елементу %d: %.2lf\n", i, fitness[i]);
-	}
-
 }
 
 /*******************************************************************************************************************/
@@ -287,6 +291,8 @@ void formNewGeneration(int*** population, int** offspring, int populationSize, i
 // Основна функція генетичного алгоритму
 void geneticAlgorithm(Graph* graph, int populationSize, int numGenerations, int mutationRate) {
 	srand(time(NULL));
+
+	printf("\n\n ====================  \033[1;37m\033[4;37mГенетичний метод\033[0m ====================\n\n");
 
 	int** population;
 	double* fitness = (double*)malloc(populationSize * sizeof(double));
@@ -299,21 +305,21 @@ void geneticAlgorithm(Graph* graph, int populationSize, int numGenerations, int 
 	// Ініціалізація популяції
 	initializePopulation(graph, populationSize, &population);
 
-	for (int gen = 0; gen < numGenerations; gen++) {
+	for (; gen < numGenerations; gen++) {
 		// Обчислення пристосування для кожного маршруту
 		calculateFitness(graph, population, populationSize, fitness);
 
 		// Вибір батьківських особин
 		selectParents(population, populationSize, fitness, parents, graph->numCities);
 
-		printf("\n === Процес схрещування генів ===\n\n");
+		if (gen == 0) printf("\n === Процес схрещування генів ===\n\n");
 		int crossoverPoint = rand() % (graph->numCities - 1) + 1;
 
 		// Створення нащадків
 		for (int i = 0; i < 2; i++) {
 			offspring[i] = (int*)malloc(graph->numCities * sizeof(int));
 
-			printf(" - Формування %s нащадка:\n", i == 0 ? "першого" : "другого");
+			if (gen == 0) printf(" - Формування %s нащадка:\n", i == 0 ? "першого" : "другого");
 			if (i == 0)
 				crossover(parents[0], parents[1], offspring[i], graph->numCities, crossoverPoint);
 			else
@@ -322,69 +328,121 @@ void geneticAlgorithm(Graph* graph, int populationSize, int numGenerations, int 
 
 		/************************************************************/
 
-		printf("\n === Процес мутації генів ===\n\n");
+		if (gen == 0)printf("\n === Процес мутації генів ===\n\n");
 
 		// Мутація першого нащадка
-		printf(" - Мутація першого нащадка:\n");
+		if (gen == 0)printf(" - Мутація першого нащадка:\n");
 
-		printf("\n   Ймовірність мутації: %d%%\n", mutationRate);
+		if (gen == 0)printf("\n   Ймовірність мутації: %d%%\n", mutationRate);
 
 		if (rand() % 100 < mutationRate) {
 			// Мутація відбувається
-			printf("   Мутація відбувається:\n");
+			if (gen == 0) {
+				printf("   Мутація відбувається:\n");
 
-			printf("     Нащадок до мутації: ");
-			for (int i = 0; i < graph->numCities; i++) {
-				printf("%d ", offspring[0][i]);
+				printf("     Нащадок до мутації: ");
+				for (int i = 0; i < graph->numCities; i++) {
+					printf("%d ", offspring[0][i]);
+				}
+				printf("\n");
 			}
-			printf("\n");
 
 			mutate(offspring[0], graph->numCities);
-			printf("     Нащадок після мутації: ");
-			for (int i = 0; i < graph->numCities; i++) {
-				printf("%d ", offspring[0][i]);
+
+			if (gen == 0) {
+				printf("     Нащадок після мутації: ");
+				for (int i = 0; i < graph->numCities; i++) {
+					printf("%d ", offspring[0][i]);
+				}
+				printf("\n");
 			}
-			printf("\n");
 		}
 		else {
-			printf("   Мутація не відбувається.\n");
+			if (gen == 0) printf("   Мутація не відбувається.\n");
 		}
 
 		// Мутація другого нащадка
-		printf("\n - Мутація другого нащадка:\n");
+		if (gen == 0) printf("\n - Мутація другого нащадка:\n");
 
-		printf("\n   Ймовірність мутації: %d%%\n", mutationRate);
+		if (gen == 0) printf("\n   Ймовірність мутації: %d%%\n", mutationRate);
 
 		if (rand() % 100 < mutationRate) {
-			// Мутація відбувається
-			printf("   Мутація відбувається:\n");
+			if (gen == 0) {
+				// Мутація відбувається
+				printf("   Мутація відбувається:\n");
 
-			printf("     Нащадок до мутації: ");
-			for (int i = 0; i < graph->numCities; i++) {
-				printf("%d ", offspring[1][i]);
+				printf("     Нащадок до мутації: ");
+				for (int i = 0; i < graph->numCities; i++) {
+					printf("%d ", offspring[1][i]);
+				}
+				printf("\n");
 			}
-			printf("\n");
 
 			mutate(offspring[1], graph->numCities);
-			printf("     Нащадок після мутації: ");
-			for (int i = 0; i < graph->numCities; i++) {
-				printf("%d ", offspring[1][i]);
+
+			if (gen == 0) {
+				printf("     Нащадок після мутації: ");
+				for (int i = 0; i < graph->numCities; i++) {
+					printf("%d ", offspring[1][i]);
+				}
+				printf("\n");
 			}
-			printf("\n");
 		}
 		else {
-			printf("   Мутація не відбувається.\n");
+			if (gen == 0) printf("   Мутація не відбувається.\n");
 		}
 
 		/************************************************************/
 
-		printf("\n === Процес формування нового покоління ===\n\n");
+		if (gen == 0) printf("\n === Процес формування нового покоління ===\n\n");
 
 		// Формування нового покоління
 		formNewGeneration(&population, offspring, populationSize, 2, fitness, graph);
 
-		printf("\n >>>>> Покоління %d сформовано <<<<<\n", gen + 1);
+		if (gen == 0) printf("\n >>>>>>>>>  Покоління %d сформовано  <<<<<<<<<\n", gen + 1);
 	}
+
+	printf("\n >> \033[1;37m\033[4;37mРезультат після формування 100 покоління:\033[0m\n");
+
+	// Знаходження найкращого маршруту (найменша відстань)
+	double bestDistance = fitness[0]; // Перший елемент масиву fitness
+	int bestRouteIndex = 0;
+
+	for (int i = 1; i < populationSize; i++) {
+		if (fitness[i] < bestDistance) {
+			bestDistance = fitness[i];
+			bestRouteIndex = i;
+		}
+	}
+
+	int* bestRoute = population[bestRouteIndex];
+
+	// 3. Виведення маршруту
+	printf("\n \033[0;103m\033[1;37m\033[4;37mМАРШРУТ:\033[0m  ");
+	for (int i = 0; i < graph->numCities; ++i) {
+		printf("%d-", bestRoute[i]);
+	}
+	printf("%d\n           ", bestRoute[0]); // Перший місто
+
+	for (int i = 0; i < graph->numCities; ++i) {
+		printf("%s -> ", graph->cities[bestRoute[i]].name);
+	}
+	printf("%s\n", graph->cities[bestRoute[0]].name); // Повернення до першого міста
+
+	// 4. Виведення загальної відстані
+	double totalDistance = bestDistance;
+
+	printf("\n \033[0;103m\033[1;37m\033[4;37mВІДСТАНЬ:\033[0m ");
+
+	for (int i = 0; i < graph->numCities - 1; ++i) {
+		double cityDistance = graph->adjacency_matrix[bestRoute[i]][bestRoute[i + 1]];
+		printf("%.2f + ", cityDistance);
+	}
+	double returnDistance = graph->adjacency_matrix[bestRoute[graph->numCities - 1]][bestRoute[0]];
+	printf("%.2f = \033[0;103m%.2f км.\033[0m\n\n", returnDistance, totalDistance);
+
+	printf(" ===========================================================\n");
+
 
 	//// Очищення пам'яті
 	//for (int i = 0; i < populationSize; i++) {
@@ -398,6 +456,36 @@ void geneticAlgorithm(Graph* graph, int populationSize, int numGenerations, int 
 	//free(offspring);
 	//free(parents);
 }
+
+/*******************************************************************************************************************/
+
+//// Видалення попередньої популяції
+//for (int i = 0; i < populationSize; i++) {
+//	free((*population)[i]);
+//}
+//free(*population);
+
+//// Оновлення популяції з новими маршрутами
+//*population = (int**)malloc(populationSize * sizeof(int*));
+//for (int i = 0; i < populationSize; i++) {
+//	// Виділення пам'яті для нового маршруту
+//	(*population)[i] = (int*)malloc(graph->numCities * sizeof(int));
+
+//	// Копіювання значень нового маршруту
+//	for (int j = 0; j < graph->numCities; j++) {
+//		(*population)[i][j] = routesWithFitness[i].route[j];
+//	}
+//}
+
+//// Звільнюємо тимчасовий масив структур
+//free(routesWithFitness);
+
+//// Заміна нащадків
+//for (int i = 0; i < numOffspring; i++) {
+//	int replaceIndex = rand() % populationSize;
+//	free((*population)[replaceIndex]);
+//	(*population)[replaceIndex] = offspring[i];
+//}
 
 /*******************************************************************************************************************/
 

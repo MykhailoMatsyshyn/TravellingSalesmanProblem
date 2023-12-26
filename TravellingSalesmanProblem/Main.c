@@ -39,9 +39,10 @@ int main(int argc, char* argv[]) {
 
         insertionTSP(&graph);
 
-        branchAndBound(&graph);
+       // branchAndBound(&graph);
 
         //runGeneticAlgorithm(&graph);
+
 
         line("\033[0;104m \033[0m", 190);
         line("\033[0;103m \033[0m", 190);
@@ -69,3 +70,21 @@ void displayBanner() {
     printf("\n \033[0;104m  \033[0m\t\t  HUMANITARIAN AID DELIVERY (TSP) \t\t\033[0;103m  \033[0m");
     printf("\n \033[0;103m  \033[0m"); line2(" ", 61); printf("\033[0;103m  \033[0m"); printf("\n \033[0;103m");  line(" ", 65); printf("\033[0m\n");
 }
+
+/*
+n
+5
+
+*/
+
+/*
+y
+C:\Users\Mykhailo\GumanitariumCenters.txt
+
+*/
+
+/*
+y
+C:\Users\Mykhailo\GumanitariumCenters2.txt
+
+*/

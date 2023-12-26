@@ -148,7 +148,7 @@ void branchAndBound(Graph* graph) {
     timespec_get(&end, TIME_UTC);
 
     // Виведення результату
-    printf("\n МАРШРУТ:  ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mМАРШРУТ:\033[0m  ");
     for (int i = 0; i < n; ++i) {
         printf("%d-", bestRoute[i]);
     }
@@ -162,13 +162,13 @@ void branchAndBound(Graph* graph) {
 
     // Обчислення та виведення загальної відстані
     double totalDistance = 0.0;
-    printf("\n ВІДСТАНЬ: ");
+    printf("\n \033[0;103m\033[1;37m\033[4;37mВІДСТАНЬ:\033[0m ");
     for (int i = 0; i < n - 1; ++i) {
         totalDistance += matrix[bestRoute[i]][bestRoute[i + 1]];
         printf("%.2f + ", matrix[bestRoute[i]][bestRoute[i + 1]]);
     }
     totalDistance += matrix[bestRoute[n - 1]][bestRoute[0]];
-    printf("%.2f = %.2f км.\n\n", matrix[bestRoute[n - 1]][bestRoute[0]], totalDistance);
+    printf("%.2f = \033[0;103m%.2f км.\033[0m\n\n", matrix[bestRoute[n - 1]][bestRoute[0]], totalDistance);
 
 
     // Виведення часу виконання
